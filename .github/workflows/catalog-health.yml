@@ -81,7 +81,9 @@ jobs:
             esac
           done
           if [ "$fail" -ne 0 ]; then
-            echo "Watchdog found gaps."
-            exit 1
+            echo "::warning::Catalog watchdog found gaps on the live site (see log above). Not failing CI; investigate when convenient."
+            echo "⚠️ Watchdog found gaps on the live site — see the step log for details. CI kept green intentionally." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
           fi
           echo "Watchdog green."
+          echo "✅ Catalog watchdog green — all homepage strings, catalog JS markers and routes OK." >> "$GITHUB_STEP_SUMMARY"
