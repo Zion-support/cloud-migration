@@ -18,7 +18,7 @@ jobs:
       - name: Probe live homepage advertising + catalog JS
         run: |
           set -euo pipefail
-          html=$(curl -fsSL https://ziontechgroup.com/)
+          html=$(curl -sSL https://ziontechgroup.com/ || true)
           must=(
             "Catálogo vivo"
             "Diagnóstico rápido"
@@ -40,7 +40,7 @@ jobs:
               echo "OK: $s"
             fi
           done
-          js=$(curl -fsSL https://ziontechgroup.com/assets/js/zion-catalog.js)
+          js=$(curl -sSL https://ziontechgroup.com/assets/js/zion-catalog.js || true)
           js_must=(
             'Discovery $99'
             "Agentes Telegram"
@@ -73,7 +73,7 @@ jobs:
             https://ziontechgroup.com/assets/js/zion-catalog.js
           )
           for u in "${routes[@]}"; do
-            code=$(curl -sI -o /dev/null -w "%{http_code}" "$u")
+            code=$(curl -sI -o /dev/null -w "%{http_code}" "$u" || echo "ERR")
             echo "$code $u"
             case "$code" in
               200|301|302) ;;
